@@ -436,6 +436,7 @@ const CONFIG = {
   ],
   ltc: 'LKnxoffLk7mrHrtQDxL9FKWqmUeCD8iKVA',
   sol: '5itMqG3gNTFYbxXDM7X2Y4q6U7WZijPAb98SayuJzSw6',
+  videoUrl: '', // paste your UNLISTED YouTube link here, e.g. 'https://www.youtube.com/embed/VIDEO_ID'
   paypal: {
     basic: 'https://www.paypal.com/ncp/payment/TKCLNR3J25RP6',
     full: 'https://www.paypal.com/ncp/payment/KJP54EA77Q3NL',
@@ -539,7 +540,9 @@ function deliveryHTML(planId,oid){
       <span style="font-size:12.5px">Message me with your Order ID <b style="font-family:monospace">${oid}</b> and you'll be pulled into the live trading calls.</span></div>`;
   return `<div class="instr"><b style="color:var(--grn2)">Your course video is unlocked below.</b> Keep your Order ID private.</div>
     <div style="margin:14px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line2);background:#000">
-      <video controls controlsList="nodownload" style="width:100%;display:block;max-height:320px" src="course.mp4"></video>
+      ${CONFIG.videoUrl
+        ? `<iframe style="width:100%;aspect-ratio:16/9;display:block;border:none" src="${CONFIG.videoUrl}" allowfullscreen></iframe>`
+        : `<video controls controlsList="nodownload" style="width:100%;display:block;max-height:320px" src="course.mp4"></video>`}
     </div>`;
 }
 async function confirmOrder(){
