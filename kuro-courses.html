@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuro's Courses — Learn Trading. Build Your Edge.</title>
+<meta name="description" content="Premium trading education. Fundamentals, strategies, risk management.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ================= KURO'S COURSES — premium fintech redesign ================= */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#05070b; --p1:#0a0f16; --p2:#0e141d; --p3:#121a26;
+  --grn:#22c55e; --grn2:#4ade80; --blu:#3b82f6; --blu2:#60a5fa; --pur:#a78bfa;
+  --txt:#f4f6fa; --mut:#8e9aac; --dim:#5c6879;
+  --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+  --r:14px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'Inter',-apple-system,'Segoe UI',sans-serif;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased}
+/* layered depth background */
+.bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(900px 480px at 12% -4%,rgba(34,197,94,.06),transparent 60%),
+    radial-gradient(1000px 520px at 88% 6%,rgba(59,130,246,.08),transparent 60%),
+    radial-gradient(1100px 620px at 50% 108%,rgba(59,130,246,.05),transparent 60%),
+    radial-gradient(600px 400px at 78% 52%,rgba(167,139,250,.03),transparent 60%)}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:radial-gradient(ellipse 100% 62% at 50% 0%,#000 20%,transparent 78%)}
+.bg-noise{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+::selection{background:rgba(59,130,246,.35)}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#1c2534;border-radius:8px}
+/* ============ NAV: floating glass pill ============ */
+.navwrap{position:fixed;top:14px;left:0;right:0;z-index:60;display:flex;justify-content:center;padding:0 4vw;transition:.3s}
+.navwrap.scrolled .nav{box-shadow:0 18px 50px -12px rgba(0,0,0,.7);border-color:var(--line2)}
+.nav{width:min(1160px,100%);display:flex;align-items:center;gap:4px;padding:11px 12px 11px 20px;
+  background:rgba(10,15,22,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--line);border-radius:18px;transition:.3s}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;letter-spacing:-.2px;
+  text-decoration:none;color:#fff;margin-right:22px}
+.mark{width:32px;height:32px;border-radius:9px;background:#0a1220;
+  display:grid;place-items:center;overflow:hidden;flex:0 0 auto;
+  border:1px solid rgba(96,165,250,.4);
+  box-shadow:0 4px 14px rgba(59,130,246,.4),inset 0 1px 0 rgba(255,255,255,.12)}
+.mark svg{display:block}
+.nlinks{display:flex;gap:2px}
+.nlinks a{color:var(--mut);text-decoration:none;font-size:13.5px;font-weight:500;padding:9px 15px;
+  border-radius:9px;transition:.18s}
+.nlinks a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.cta{margin-left:auto;background:linear-gradient(135deg,#22c55e,#16a34a);color:#03130a;border:none;
+  font-weight:700;font-size:13.5px;padding:11px 20px;border-radius:11px;cursor:pointer;transition:.2s;
+  text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  box-shadow:0 6px 20px -6px rgba(34,197,94,.5),inset 0 1px 0 rgba(255,255,255,.25)}
+.cta:hover{transform:translateY(-1px);box-shadow:0 10px 28px -6px rgba(34,197,94,.6)}
+.cta .arw{transition:.2s}.cta:hover .arw{transform:translateX(3px)}
+.burger{display:none;margin-left:auto;background:rgba(255,255,255,.05);border:1px solid var(--line);color:#fff;
+  font-size:17px;width:40px;height:40px;border-radius:11px;cursor:pointer}
+/* ============ HERO ============ */
+.hero{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:178px 4vw 40px;text-align:center;overflow:visible}
+.chart-bg{position:absolute;inset:40px -4vw 0;pointer-events:none;opacity:.9;
+  mask-image:radial-gradient(ellipse 75% 80% at 50% 30%,#000 25%,transparent 75%)}
+.pill{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:2.5px;
+  color:#d3dae4;border:1px solid var(--line2);background:rgba(255,255,255,.03);
+  border-radius:100px;padding:9px 20px;margin-bottom:28px;backdrop-filter:blur(8px)}
+.pdot{width:7px;height:7px;border-radius:50%;background:var(--grn);
+  box-shadow:0 0 12px 2px rgba(34,197,94,.7);animation:pl 2s infinite}
+@keyframes pl{50%{opacity:.45}}
+.hero h1{font-size:clamp(44px,7vw,88px);font-weight:900;letter-spacing:-3.5px;line-height:1.02}
+.hero h1 .grad{background:linear-gradient(94deg,#4ade80 10%,#60a5fa 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{color:var(--mut);font-size:clamp(15px,2vw,18.5px);max-width:620px;margin:24px auto 0;
+  line-height:1.65;font-weight:400}
+.hbtns{display:flex;gap:12px;justify-content:center;margin-top:38px;flex-wrap:wrap}
+.btn{font-size:14.5px;font-weight:700;padding:15px 30px;border-radius:12px;cursor:pointer;transition:.2s;
+  text-decoration:none;border:none;display:inline-flex;align-items:center;gap:9px;font-family:inherit}
+.btn .arw{transition:.2s;font-weight:800}
+.btn:hover .arw{transform:translateX(4px)}
+.btn.g{background:linear-gradient(135deg,#22c55e,#16a34a);color:#03130a;
+  box-shadow:0 10px 32px -8px rgba(34,197,94,.55),inset 0 1px 0 rgba(255,255,255,.3)}
+.btn.pp{background:linear-gradient(135deg,#ffc439,#e0a800);color:#1a1200}
+.btn.pp:hover{transform:translateY(-2px) scale(1.015);box-shadow:0 14px 36px -8px rgba(255,196,57,.55)}
+.btn.o{background:rgba(255,255,255,.04);color:#fff;border:1px solid var(--line2);backdrop-filter:blur(8px)}
+.btn.o:hover{transform:translateY(-2px);border-color:rgba(96,165,250,.55);box-shadow:0 12px 30px -10px rgba(59,130,246,.4)}
+.disclaim{margin-top:24px;font-size:12.5px;color:var(--dim)}
+/* floating glass chips */
+.chip{position:absolute;display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;
+  background:rgba(14,20,29,.72);border:1px solid var(--line2);border-radius:13px;padding:11px 16px;
+  backdrop-filter:blur(12px);box-shadow:0 16px 40px -12px rgba(0,0,0,.7);animation:float 6s ease-in-out infinite}
+.chip small{color:var(--dim);font-weight:500}
+.chip .up{color:var(--grn2)}.chip .bl{color:var(--blu2)}
+.chip.c1{top:210px;left:2vw}.chip.c2{top:300px;right:2vw;animation-delay:-2s}
+.chip.c3{top:430px;left:6vw;animation-delay:-4s}
+@keyframes float{50%{transform:translateY(-12px)}}
+/* ============ TRUST PANEL ============ */
+.trust{position:relative;z-index:1;max-width:1160px;margin:56px auto 0;padding:0 4vw}
+.trust-in{display:flex;align-items:stretch;background:rgba(10,15,22,.7);border:1px solid var(--line);
+  border-radius:20px;backdrop-filter:blur(16px);overflow:hidden;
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.05)}
+.tcell{flex:1;display:flex;align-items:center;gap:16px;padding:26px 34px;position:relative}
+.tcell+.tcell::before{content:'';position:absolute;left:0;top:24%;bottom:24%;width:1px;
+  background:linear-gradient(transparent,var(--line2),transparent)}
+.tnum{font-size:30px;font-weight:900;letter-spacing:-1px;
+  background:linear-gradient(180deg,#fff,#9fb0c5);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tcell b{font-size:15px;display:block}
+.tcell span{color:var(--mut);font-size:12.5px}
+/* ============ SECTIONS ============ */
+section{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:110px 4vw 0}
+.sep{max-width:1160px;margin:100px auto 0;padding:0 4vw;position:relative;z-index:1}
+.sep div{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+.kick{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:2.5px;
+  color:var(--blu2);text-transform:uppercase;margin-bottom:14px}
+.kick::before{content:'';width:22px;height:1.5px;background:linear-gradient(90deg,var(--blu),transparent)}
+h2.st{font-size:clamp(30px,4.2vw,48px);font-weight:800;letter-spacing:-1.8px;line-height:1.08;margin-bottom:12px}
+h2.st .grad{background:linear-gradient(94deg,#4ade80,#60a5fa);-webkit-background-clip:text;background-clip:text;color:transparent}
+p.ss{color:var(--mut);font-size:16px;max-width:600px;line-height:1.65}
+/* learn: asymmetric grid */
+.lgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:44px}
+.lcard{grid-column:span 2;background:linear-gradient(180deg,rgba(18,26,38,.85),rgba(10,15,22,.9));
+  border:1px solid var(--line);border-radius:18px;padding:30px 26px;transition:.22s;position:relative;overflow:hidden}
+.lcard::after{content:'';position:absolute;inset:0;opacity:0;transition:.25s;pointer-events:none;
+  background:radial-gradient(320px 160px at 50% -30%,rgba(59,130,246,.14),transparent 70%)}
+.lcard:hover{transform:translateY(-5px);border-color:rgba(96,165,250,.4);
+  box-shadow:0 26px 50px -20px rgba(0,0,0,.8)}
+.lcard:hover::after{opacity:1}
+.lcard.wide{grid-column:span 3}
+.lnum{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--dim);margin-bottom:16px}
+.lcard h3{font-size:18.5px;font-weight:700;letter-spacing:-.3px;margin-bottom:9px}
+.lcard p{color:var(--mut);font-size:13.5px;line-height:1.65}
+.lico{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;margin-bottom:18px;
+  background:rgba(59,130,246,.09);border:1px solid rgba(59,130,246,.28);transition:.22s}
+.lcard:hover .lico{transform:translateY(-3px);background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.35)}
+/* why strip */
+.wstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:44px;background:rgba(10,15,22,.6);
+  border:1px solid var(--line);border-radius:20px;overflow:hidden;backdrop-filter:blur(12px)}
+.wcell{padding:30px 28px;transition:.2s;position:relative}
+.wcell+.wcell{border-left:1px solid var(--line)}
+.wcell:hover{background:rgba(255,255,255,.025)}
+.wcell h4{font-size:15px;margin:14px 0 7px}
+.wcell p{color:var(--mut);font-size:13px;line-height:1.6}
+/* preview */
+.prev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:44px}
+.prev{background:linear-gradient(180deg,rgba(18,26,38,.8),rgba(10,15,22,.9));border:1px solid var(--line);
+  border-radius:18px;padding:22px;display:flex;gap:18px;align-items:center;transition:.22s;cursor:pointer}
+.prev:hover{transform:translateY(-4px);border-color:rgba(34,197,94,.4);box-shadow:0 22px 44px -20px rgba(0,0,0,.8)}
+.thumb{flex:0 0 78px;height:78px;border-radius:14px;background:linear-gradient(135deg,#0d2138,#0f2f24);
+  border:1px solid var(--line2);display:grid;place-items:center;font-weight:800;font-size:12px;
+  color:var(--grn2);letter-spacing:1.5px}
+.prev h4{font-size:15.5px;margin-bottom:5px;letter-spacing:-.2px}
+.prev p{color:var(--mut);font-size:13px}
+.dur{margin-left:auto;flex:0 0 auto;font-size:11.5px;font-weight:700;color:var(--blu2);
+  background:rgba(59,130,246,.09);border:1px solid rgba(59,130,246,.3);padding:7px 13px;border-radius:100px}
+/* pricing */
+.price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px;align-items:stretch;max-width:1020px}
+.price{background:linear-gradient(180deg,rgba(18,26,38,.85),rgba(10,15,22,.92));border:1px solid var(--line);
+  border-radius:22px;padding:34px 30px;display:flex;flex-direction:column;transition:.22s;position:relative}
+.price:hover{transform:translateY(-6px);border-color:var(--line2);box-shadow:0 30px 60px -24px rgba(0,0,0,.85)}
+.price.feat{border:1px solid rgba(59,130,246,.55);
+  background:linear-gradient(180deg,rgba(23,38,66,.9),rgba(11,17,29,.95));
+  box-shadow:0 0 0 1px rgba(59,130,246,.25),0 34px 80px -24px rgba(59,130,246,.4)}
+.price.feat:hover{box-shadow:0 0 0 1px rgba(59,130,246,.4),0 40px 90px -24px rgba(59,130,246,.55)}
+.badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+  font-size:10px;font-weight:800;letter-spacing:2px;padding:6px 18px;border-radius:100px;white-space:nowrap;
+  box-shadow:0 8px 22px -6px rgba(59,130,246,.7)}
+.pname{font-size:12px;font-weight:800;letter-spacing:3px;margin-bottom:12px}
+.pname.g{color:var(--grn2)}.pname.b{color:var(--blu2)}.pname.p{color:var(--pur)}.pname.gold{color:#fbbf24}
+.price.feat{border:1px solid rgba(251,191,36,.6);
+  background:linear-gradient(180deg,rgba(46,34,10,.92),rgba(12,10,5,.95));
+  box-shadow:0 0 0 1px rgba(251,191,36,.25),0 34px 80px -24px rgba(251,191,36,.4)}
+.price.feat:hover{box-shadow:0 0 0 1px rgba(251,191,36,.45),0 40px 90px -24px rgba(251,191,36,.55)}
+.price.feat .plist li::before{border-color:#fbbf24}
+.badge.gold{background:linear-gradient(135deg,#fbbf24,#b45309);box-shadow:0 8px 22px -6px rgba(251,191,36,.7)}
+.pdesc{font-size:13px;color:var(--mut);margin-bottom:6px}
+.pval{font-size:48px;font-weight:900;letter-spacing:-2px}
+.pval small{font-size:13.5px;color:var(--dim);font-weight:500;letter-spacing:0}
+.plist{list-style:none;margin:22px 0 26px;flex:1}
+.plist li{color:#c6cfdb;font-size:13.5px;padding:8px 0 8px 28px;position:relative;border-bottom:1px solid rgba(255,255,255,.045)}
+.plist li::before{content:'';position:absolute;left:2px;top:13px;width:14px;height:8px;
+  border-left:2.5px solid var(--grn);border-bottom:2.5px solid var(--grn);transform:rotate(-45deg) scale(.85)}
+.pbtn{width:100%;justify-content:center}
+.pbtn.glow-g:hover{box-shadow:0 14px 36px -8px rgba(34,197,94,.6)}
+.pbtn.glow-b:hover{box-shadow:0 14px 36px -8px rgba(59,130,246,.6)}
+/* FAQ */
+.faq{margin-top:36px;display:flex;flex-direction:column;gap:10px;max-width:820px}
+.qa{background:rgba(12,18,28,.75);border:1px solid var(--line);border-radius:15px;overflow:hidden;transition:.2s}
+.qa.open{border-color:rgba(96,165,250,.4);background:rgba(15,22,34,.9)}
+.qa button{width:100%;background:none;border:none;color:#fff;font-size:14.5px;font-weight:600;text-align:left;
+  padding:19px 22px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;font-family:inherit}
+.qplus{color:var(--blu2);font-size:19px;font-weight:400;flex:0 0 auto;transition:transform .28s ease;line-height:1}
+.qa.open .qplus{transform:rotate(45deg)}
+.qa .a{max-height:0;overflow:hidden;transition:max-height .32s ease;color:var(--mut);font-size:13.5px;line-height:1.7}
+.qa .a div{padding:0 22px 20px}
+/* risk */
+.risk{margin-top:36px;max-width:820px;background:rgba(239,68,68,.045);border:1px solid rgba(239,68,68,.22);
+  border-radius:18px;padding:28px 30px}
+.risk h3{color:#fca5a5;font-size:12px;letter-spacing:2.5px;margin-bottom:10px;font-weight:800}
+.risk p{color:var(--mut);font-size:13.5px;line-height:1.75}
+/* footer */
+footer{position:relative;z-index:1;border-top:1px solid var(--line);margin-top:110px;
+  background:linear-gradient(180deg,transparent,rgba(4,6,11,.9))}
+.fin{max-width:1160px;margin:0 auto;padding:64px 4vw 34px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:36px}
+.fin p{color:var(--mut);font-size:13px;line-height:1.7;margin-top:14px;max-width:300px}
+.fin h5{font-size:11px;letter-spacing:2px;color:var(--dim);margin-bottom:16px;font-weight:700}
+.fin a{display:block;color:var(--mut);text-decoration:none;font-size:13.5px;padding:5px 0;transition:.18s}
+.fin a:hover{color:#fff;transform:translateX(2px)}
+.frisk{max-width:1160px;margin:0 auto;padding:0 4vw 26px;color:var(--dim);font-size:12px;line-height:1.7}
+.copy{text-align:center;color:var(--dim);font-size:12.5px;padding:22px;border-top:1px solid var(--line)}
+/* checkout modal */
+.overlay{position:fixed;inset:0;z-index:100;background:rgba(2,4,9,.8);backdrop-filter:blur(12px);
+  display:none;align-items:center;justify-content:center;padding:18px}
+.overlay.open{display:flex}
+.modal{width:min(560px,100%);max-height:92vh;overflow-y:auto;background:linear-gradient(180deg,#0f1622,#080d16);
+  border:1px solid rgba(96,165,250,.3);border-radius:22px;padding:30px;animation:mIn .28s cubic-bezier(.2,.9,.3,1.1);
+  box-shadow:0 50px 100px -20px rgba(0,0,0,.8)}
+@keyframes mIn{from{transform:translateY(22px) scale(.98);opacity:0}}
+.mhead{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.mhead h2{font-size:20px;font-weight:800;letter-spacing:-.4px}
+.x{margin-left:auto;background:rgba(255,255,255,.06);border:1px solid var(--line);color:#fff;width:34px;height:34px;
+  border-radius:10px;cursor:pointer;font-size:14px;transition:.2s}
+.x:hover{border-color:#f87171;transform:rotate(90deg)}
+.msub{color:var(--mut);font-size:13px;margin-bottom:4px}.msub b{color:#fff}
+.ptabs{display:flex;gap:8px;margin:18px 0;padding:5px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px}
+.ptab{flex:1;background:none;border:none;color:var(--mut);font-weight:700;font-size:13px;padding:11px 6px;
+  border-radius:9px;cursor:pointer;transition:.2s;font-family:inherit}
+.ptab.sel{color:#fff;background:rgba(59,130,246,.16);box-shadow:inset 0 0 0 1px rgba(59,130,246,.45)}
+.addrbox{display:flex;gap:8px;background:rgba(0,0,0,.45);border:1px solid var(--line2);border-radius:12px;
+  padding:12px 8px 12px 16px;font-family:monospace;font-size:12.5px;word-break:break-all;color:#dbe4f0;align-items:center}
+.addrbox span{flex:1}
+.cp{background:linear-gradient(135deg,#22c55e,#16a34a);border:none;color:#03130a;font-weight:800;font-size:12px;
+  padding:10px 16px;border-radius:9px;cursor:pointer;white-space:nowrap;transition:.2s}
+.cp.done{background:var(--blu);color:#fff;transform:scale(1.05)}
+.qrph{border:1.5px dashed rgba(255,255,255,.22);border-radius:14px;padding:26px;text-align:center;color:var(--mut);
+  font-size:12.5px;margin:14px 0;line-height:1.7}
+.instr{color:var(--mut);font-size:13px;line-height:1.75;background:rgba(59,130,246,.06);
+  border:1px solid rgba(59,130,246,.22);border-radius:12px;padding:14px 16px}
+.instr b{color:#fff}
+.mfoot{margin-top:18px;display:flex;flex-direction:column;gap:10px}
+.big{width:100%;justify-content:center}
+.note{font-size:12px;color:var(--dim);text-align:center;line-height:1.6}
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);z-index:200;opacity:0;
+  background:#0e1a30;border:1px solid rgba(96,165,250,.5);color:#fff;font-weight:600;font-size:13.5px;
+  padding:13px 26px;border-radius:14px;transition:.3s;box-shadow:0 20px 40px rgba(0,0,0,.6)}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+/* ============ UNIVERSAL HOVER GLOW ============ */
+a,.qa button,.ptab,.prev,.tcell,.wcell,.chip,.thumb,.dur,.addrbox,.qrph,.risk,.trust-in,.logo,.mark,.pill,.thumb,.badge{transition:box-shadow .22s ease,text-shadow .22s ease,border-color .22s ease,transform .22s ease}
+.nlinks a:hover{color:#fff;text-shadow:0 0 14px rgba(96,165,250,.9),0 0 34px rgba(59,130,246,.5);background:rgba(59,130,246,.1);box-shadow:0 0 18px -4px rgba(59,130,246,.5)}
+.logo:hover{text-shadow:0 0 16px rgba(74,222,128,.8)}
+.logo:hover .mark{box-shadow:0 0 22px rgba(34,197,94,.8),inset 0 1px 0 rgba(255,255,255,.25)}
+.fin a:hover{color:#fff;text-shadow:0 0 12px rgba(96,165,250,.85)}
+.qa:hover{border-color:rgba(96,165,250,.45);box-shadow:0 0 24px -6px rgba(59,130,246,.45)}
+.qa button:hover{text-shadow:0 0 12px rgba(255,255,255,.4)}
+.ptab:hover:not(.sel){color:#fff;text-shadow:0 0 12px rgba(96,165,250,.8);box-shadow:0 0 16px -4px rgba(59,130,246,.5)}
+.prev:hover .thumb{box-shadow:0 0 26px -4px rgba(34,197,94,.6);border-color:rgba(74,222,128,.6)}
+.prev:hover h4{text-shadow:0 0 14px rgba(255,255,255,.45)}
+.tcell:hover{background:rgba(59,130,246,.05)}
+.tcell:hover .tnum{text-shadow:0 0 22px rgba(96,165,250,.7)}
+.wcell:hover h4{text-shadow:0 0 14px rgba(74,222,128,.6)}
+.chip:hover{box-shadow:0 0 30px -6px rgba(59,130,246,.65);border-color:rgba(96,165,250,.6)}
+.dur:hover{box-shadow:0 0 18px -2px rgba(59,130,246,.7);text-shadow:0 0 10px rgba(96,165,250,.9)}
+.addrbox:hover{border-color:rgba(96,165,250,.45);box-shadow:0 0 20px -6px rgba(59,130,246,.5)}
+.qrph:hover{border-color:rgba(74,222,128,.55);box-shadow:0 0 22px -8px rgba(34,197,94,.5)}
+.cp:hover{box-shadow:0 0 22px rgba(34,197,94,.8);transform:scale(1.06)}
+.x:hover{box-shadow:0 0 16px rgba(248,113,113,.7)}
+.burger:hover{box-shadow:0 0 16px rgba(96,165,250,.6);border-color:rgba(96,165,250,.5)}
+.pill:hover{box-shadow:0 0 26px -6px rgba(34,197,94,.6);border-color:rgba(74,222,128,.5)}
+.badge:hover{box-shadow:0 0 26px rgba(59,130,246,.9)}
+.mark:hover{box-shadow:0 0 24px rgba(34,197,94,.9)}
+.trust-in:hover{box-shadow:0 0 40px -18px rgba(59,130,246,.4),0 30px 60px -30px rgba(0,0,0,.8)}
+.risk:hover{box-shadow:0 0 26px -8px rgba(239,68,68,.4)}
+.kick:hover{text-shadow:0 0 14px rgba(96,165,250,.8)}
+.thumb:hover{box-shadow:0 0 26px -4px rgba(34,197,94,.6)}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.3,1)}
+.rv.vis{opacity:1;transform:none}
+@media(max-width:960px){.price-grid{grid-template-columns:1fr 1fr}.lcard,.lcard.wide{grid-column:span 3}.wstrip{grid-template-columns:1fr 1fr}
+  .wcell+.wcell{border-left:none}.wcell:nth-child(even){border-left:1px solid var(--line)}
+  .wcell{border-top:1px solid var(--line)}.wcell:nth-child(-n+2){border-top:none}.chip{display:none}}
+@media(max-width:680px){.nlinks{display:none;position:absolute;top:calc(100% + 8px);left:4vw;right:4vw;
+  flex-direction:column;background:rgba(8,12,20,.97);border:1px solid var(--line2);border-radius:16px;
+  padding:10px;margin:0;backdrop-filter:blur(20px)}
+  .nlinks.open{display:flex}.burger{display:block}.cta{display:none}.nav{margin:0}
+  .price-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
+  .prev-grid{grid-template-columns:1fr}.lcard,.lcard.wide{grid-column:span 6}
+  .trust-in{flex-direction:column}.tcell+.tcell::before{display:none}
+  .tcell{border-top:1px solid var(--line)}.tcell:first-child{border:none}
+  .fin{grid-template-columns:1fr 1fr}.btn{width:100%;justify-content:center}.hbtns{flex-direction:column}
+  section{padding-top:80px}.hero{padding-top:150px}}
+</style>
+</head>
+<body>
+<div class="bg-fx"></div><div class="bg-grid"></div><div class="bg-noise"></div>
+
+<div class="navwrap" id="navwrap">
+  <div class="nav">
+    <a class="logo" href="#top"><span class="mark"><svg width="22" height="22" viewBox="0 0 32 32"><defs><linearGradient id="kmp1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bae6fd"/><stop offset=".5" stop-color="#3b82f6"/><stop offset="1" stop-color="#1e3a8a"/></linearGradient><linearGradient id="kmp2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4ade80"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M7 4h5v9l8-9h6l-9 10 9 14h-6l-6.5-10.5L12 20v8H7z" fill="url(#kmp1)"/><path d="M9 26l9-12 4-5" stroke="url(#kmp2)" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M18 9h4.5v4.5" stroke="url(#kmp2)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>Kuro's Courses</a>
+    <div class="nlinks" id="nlinks">
+      <a href="#top">Home</a><a href="#courses">Courses</a><a href="#learn">What You'll Learn</a><a href="#faq">FAQ</a><a href="#" onclick="openAccess();return false">My Access</a>
+    </div>
+    <a class="cta" href="#pricing">Get Started <span class="arw">→</span></a>
+    <button class="burger" onclick="document.getElementById('nlinks').classList.toggle('open')">☰</button>
+  </div>
+</div>
+
+<header class="hero" id="top">
+  <svg class="chart-bg" viewBox="0 0 1200 420" fill="none" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="cl" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#22c55e" stop-opacity="0"/><stop offset=".5" stop-color="#22c55e" stop-opacity=".55"/>
+        <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="cf" x1="0" y1="0" x2="0" y2="420" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#22c55e" stop-opacity=".12"/><stop offset="1" stop-color="#22c55e" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <g stroke="rgba(255,255,255,.05)" stroke-width="1">
+      <line x1="0" y1="84" x2="1200" y2="84"/><line x1="0" y1="168" x2="1200" y2="168"/>
+      <line x1="0" y1="252" x2="1200" y2="252"/><line x1="0" y1="336" x2="1200" y2="336"/>
+    </g>
+    <path d="M0 340 L120 320 L210 328 L300 280 L390 292 L480 240 L570 252 L660 200 L750 214 L840 160 L930 172 L1020 110 L1110 122 L1200 70 L1200 420 L0 420 Z" fill="url(#cf)"/>
+    <path d="M0 340 L120 320 L210 328 L300 280 L390 292 L480 240 L570 252 L660 200 L750 214 L840 160 L930 172 L1020 110 L1110 122 L1200 70" stroke="url(#cl)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="840" cy="160" r="5" fill="#0a0f16" stroke="#4ade80" stroke-width="2.5"/>
+    <circle cx="1020" cy="110" r="5" fill="#0a0f16" stroke="#60a5fa" stroke-width="2.5"/>
+  </svg>
+  <div class="chip c1"><span class="up">▲ 2.4%</span><small>BTC / USD</small></div>
+  <div class="chip c2"><span class="bl">1 : 3</span><small>Risk / Reward</small></div>
+  <div class="chip c3"><span class="up">✓ Backtested</span><small>Rules-based entries</small></div>
+
+  <div class="pill"><span class="pdot"></span>TRADING EDUCATION</div>
+  <h1>Learn Trading.<br><span class="grad">Build Your Edge.</span></h1>
+  <p class="sub">Learn the fundamentals, strategies, and risk management principles you need to understand the markets with confidence.</p>
+  <div class="hbtns">
+    <a class="btn g" href="#courses">Explore Courses <span class="arw">→</span></a>
+    <a class="btn o" href="#pricing">Start Learning <span class="arw">→</span></a>
+  </div>
+  <p class="disclaim">Educational content only. Trading involves risk and no profits are guaranteed.</p>
+</header>
+
+<div class="trust rv">
+  <div class="trust-in">
+    <div class="tcell"><span class="tnum">4</span><div><b>Course Tiers</b><span>Basic to Live Desk</span></div></div>
+    <div class="tcell"><span class="tnum">Self-Paced</span><div><b>Learn Anytime</b><span>Lifetime access included</span></div></div>
+    <div class="tcell"><span class="tnum">Beginner</span><div><b>Friendly</b><span>Zero experience needed</span></div></div>
+  </div>
+</div>
+
+<section id="learn">
+  <div class="kick rv">Curriculum</div>
+  <h2 class="st rv">Everything You Need<br>to <span class="grad">Start Trading</span></h2>
+  <p class="ss rv">Build a strong foundation before putting your capital at risk.</p>
+  <div class="lgrid">
+    <div class="lcard wide rv"><div class="lnum">01</div><div class="lico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M3 21h18M5 21V10m4 11V3m4 18v-8m4 8V7"/></svg></div><h3>Trading Fundamentals</h3><p>How markets work, who moves them, and the core concepts every trader needs before risking a dollar.</p></div>
+    <div class="lcard wide rv"><div class="lnum">02</div><div class="lico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M4 20V9m5.5 11V4M15 20v-8m5 8V7"/></svg></div><h3>Market Structure</h3><p>Trends, ranges, swings and shifts — learn to read the skeleton underneath every chart.</p></div>
+    <div class="lcard rv"><div class="lnum">03</div><div class="lico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg></div><h3>Technical Analysis</h3><p>Indicators, entries and chart reading broken down simply with real examples.</p></div>
+    <div class="lcard rv"><div class="lnum">04</div><div class="lico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><h3>Trading Strategies</h3><p>Complete rules-based strategies you can study and backtest with confidence.</p></div>
+    <div class="lcard rv"><div class="lnum">05</div><div class="lico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg></div><h3>Risk Management</h3><p>Position sizing and capital preservation — what keeps you in the game.</p></div>
+    <div class="lcard wide rv" style="grid-column:span 6"><div class="lnum">06</div><div class="lico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg></div><h3>Trading Psychology</h3><p>Discipline, patience and emotional control — master the trader in the mirror first, because strategy means nothing without the mindset to execute it.</p></div>
+  </div>
+</section>
+
+<div class="sep"><div></div></div>
+
+<section id="why">
+  <div class="kick rv">Why Kuro's</div>
+  <h2 class="st rv">Built for <span class="grad">Beginners</span></h2>
+  <p class="ss rv">Real understanding, no hype, no shortcuts.</p>
+  <div class="wstrip rv">
+    <div class="wcell"><div class="lico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg></div><h4>Beginner Friendly</h4><p>Zero assumed knowledge, plain language throughout.</p></div>
+    <div class="wcell"><div class="lico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><h4>Structured Lessons</h4><p>Clear order that builds on itself, step by step.</p></div>
+    <div class="wcell"><div class="lico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg></div><h4>Practical Examples</h4><p>Real chart walkthroughs, not abstract theory.</p></div>
+    <div class="wcell"><div class="lico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><h4>Own Pace</h4><p>Lifetime access. Revisit anything, anytime.</p></div>
+  </div>
+</section>
+
+<div class="sep"><div></div></div>
+
+<section id="courses">
+  <div class="kick rv">Preview</div>
+  <h2 class="st rv">Course <span class="grad">Preview</span></h2>
+  <p class="ss rv">A taste of what's inside the full curriculum.</p>
+  <div class="prev-grid">
+    <div class="prev rv"><div class="thumb">01</div><div><h4>What Is a Market?</h4><p>Orders, bids, asks and how price is born.</p></div><span class="dur">12 min</span></div>
+    <div class="prev rv"><div class="thumb">02</div><div><h4>Reading Your First Chart</h4><p>Candlesticks and timeframes, demystified.</p></div><span class="dur">18 min</span></div>
+    <div class="prev rv"><div class="thumb">03</div><div><h4>Support &amp; Resistance</h4><p>The levels price respects — and why.</p></div><span class="dur">21 min</span></div>
+    <div class="prev rv"><div class="thumb">04</div><div><h4>Risk Before Reward</h4><p>Position sizing that keeps you alive.</p></div><span class="dur">16 min</span></div>
+  </div>
+</section>
+
+<div class="sep"><div></div></div>
+
+<section id="pricing">
+  <div class="kick rv">Pricing</div>
+  <h2 class="st rv">Choose Your <span class="grad">Level</span></h2>
+  <p class="ss rv">One payment, lifetime access. Honest prices for real education.</p>
+  <div class="price-grid" id="priceGrid"></div>
+</section>
+
+<div class="sep"><div></div></div>
+
+<section id="faq">
+  <div class="kick rv">FAQ</div>
+  <h2 class="st rv">Questions, <span class="grad">Answered</span></h2>
+  <div class="faq" id="faqBox"></div>
+</section>
+
+<footer>
+  <div class="fin">
+    <div>
+      <a class="logo" href="#top"><span class="mark"><svg width="22" height="22" viewBox="0 0 32 32"><path d="M7 4h5v9l8-9h6l-9 10 9 14h-6l-6.5-10.5L12 20v8H7z" fill="url(#kmp1)"/><path d="M9 26l9-12 4-5" stroke="url(#kmp2)" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M18 9h4.5v4.5" stroke="url(#kmp2)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>Kuro's Courses</a>
+      <p>Learn trading. Build your edge.<br><br>Premium trading education for beginners — fundamentals first, hype never.</p>
+    </div>
+    <div><h5>NAVIGATE</h5><a href="#top">Home</a><a href="#learn">What You'll Learn</a><a href="#faq">FAQ</a></div>
+    <div><h5>COURSES</h5><a href="#pricing">Basic — $25</a><a href="#pricing">Full — $50</a><a href="#pricing">Premium — $100</a></div>
+    <div><h5>LEGAL</h5><a href="#faq">Terms of Service</a><a href="#faq">Privacy Policy</a><a href="#faq">Refund Policy</a><a href="#" onclick="openOrders();return false">Owner Orders</a></div>
+  </div>
+  <div class="frisk">Educational content only. Trading involves risk and no profits are guaranteed. Nothing on this site constitutes financial advice.</div>
+  <div class="copy">© 2026 Kuro's Courses. All rights reserved.</div>
+</footer>
+
+<div class="overlay" id="coOverlay"><div class="modal" id="coBox"></div></div>
+<div id="toast"></div>
+
+<script>
+/* ================= CENTRAL CONFIG — edit everything here ================= */
+const CONFIG = {
+  brand: "Kuro's Courses",
+  plans: [
+    { id:'basic', name:'BASIC', color:'g', price:25, desc:'The foundations', features:['Trading fundamentals','Trading terminology','Understanding charts','Basic market concepts'], btn:'Get Basic' },
+    { id:'full', name:'FULL', color:'b', price:50, desc:'The complete system', features:['Everything in Basic','Complete trading course','Trading strategies','Risk management','Technical analysis fundamentals','Practical examples'], btn:'Get Full' },
+    { id:'premium', name:'PREMIUM', color:'p', price:100, desc:'Go beyond the basics', features:['Everything in Full','Extra lessons','Advanced concepts','Additional strategy material','Bonus educational content'], btn:'Get Premium' },
+    { id:'elite', name:'LIVE DESK', color:'gold', price:250, featured:true, badge:'BEST OFFER', desc:'Trade live with Kuro', features:['Everything in Premium','Live Discord call all day','Trade alongside me in real time','Ask anything, answered live','Private trader community'], btn:'Get Live Desk' },
+  ],
+  ltc: 'LKnxoffLk7mrHrtQDxL9FKWqmUeCD8iKVA',
+  sol: '5itMqG3gNTFYbxXDM7X2Y4q6U7WZijPAb98SayuJzSw6',
+  paypal: {
+    basic: 'https://www.paypal.com/ncp/payment/TKCLNR3J25RP6',
+    full: 'https://www.paypal.com/ncp/payment/KJP54EA77Q3NL',
+    premium: 'https://www.paypal.com/ncp/payment/XNPQDAGXEDTL4',
+    elite: 'https://www.paypal.com/ncp/payment/A22FLERW3VP6N',
+  },
+  // <!-- INSERT PAYPAL BUTTON HERE -->
+  // More plan links go in paypal:{} above (full, premium, elite).
+  faqs: [
+    ['Is this course beginner friendly?','Yes — it assumes zero knowledge and builds every concept from the ground up in plain language.'],
+    ['What payment methods do you accept?','PayPal, Litecoin (LTC) and Solana (SOL). All options are shown at checkout.'],
+    ['Do I need previous trading experience?','No. The Basic tier starts with fundamentals and terminology before touching a chart.'],
+    ['Is this financial advice?','No. This is educational material only. Nothing here tells you what to buy or sell.'],
+    ['How do I receive the course?','After your payment, you will receive access instructions by email along with your order ID. Crypto payments are confirmed before access is sent.'],
+    ['Are profits guaranteed?','No. Trading involves risk and no profits are guaranteed. Anyone promising otherwise is lying to you.'],
+  ]
+};
+
+/* pricing */
+const pg=document.getElementById('priceGrid');
+CONFIG.plans.forEach(p=>{
+  const d=document.createElement('div');
+  d.className='price rv'+(p.featured?' feat':'');
+  d.innerHTML=`${p.featured?`<span class="badge ${p.color==='gold'?'gold':''}">${p.badge||'MOST POPULAR'}</span>`:''}
+    <div class="pname ${p.color}">${p.name}</div>
+    <div class="pval">$${p.price}<small> / lifetime</small></div>
+    <div class="pdesc">${p.desc}</div>
+    <ul class="plist">${p.features.map(f=>`<li>${f}</li>`).join('')}</ul>
+    <button class="btn ${p.featured?'g':'o'} pbtn ${p.featured?'glow-b':'glow-g'}" onclick="checkout('${p.id}')">${p.btn} <span class="arw">→</span></button>`;
+  pg.appendChild(d);
+});
+/* faq */
+const fq=document.getElementById('faqBox');
+CONFIG.faqs.forEach(([q,a])=>{
+  const d=document.createElement('div'); d.className='qa rv';
+  d.innerHTML=`<button>${q}<span class="qplus">+</span></button><div class="a"><div>${a}</div></div>`;
+  d.querySelector('button').onclick=()=>{
+    const open=d.classList.contains('open');
+    document.querySelectorAll('.qa').forEach(x=>{x.classList.remove('open');x.querySelector('.a').style.maxHeight=null;});
+    if(!open){d.classList.add('open');const a2=d.querySelector('.a');a2.style.maxHeight=a2.scrollHeight+'px';}
+  };
+  fq.appendChild(d);
+});
+
+const BACKEND=''; // same origin — works on localhost and your public domain
+
+/* checkout */
+const coOverlay=document.getElementById('coOverlay'), coBox=document.getElementById('coBox');
+let CO={plan:null,tab:'pp'};
+coOverlay.addEventListener('click',e=>{if(e.target===coOverlay)coOverlay.classList.remove('open');});
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
+function checkout(id){CO={plan:CONFIG.plans.find(p=>p.id===id),tab:'pp'};renderCO();coOverlay.classList.add('open');}
+function setTab(t){CO.tab=t;renderCO();}
+function copyAddr(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id).textContent.trim()).then(()=>{
+    btn.textContent='COPIED ✓';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='COPY ADDRESS';btn.classList.remove('done');},1800);
+  });
+}
+function renderCO(){
+  const p=CO.plan; let body='';
+  if(CO.tab==='pp'){
+    const link=CONFIG.paypal[p.id]||'';
+    body=`<div id="paypalSlot">
+      <!-- INSERT PAYPAL BUTTON HERE: extra plan links live in CONFIG.paypal -->
+      ${link
+        ? `<a class="btn pp big" href="${link}" target="_blank" rel="noopener">Pay $${p.price} with PayPal <span class="arw">→</span></a>`
+        : `<div class="qrph">PayPal button for this plan isn't added yet.<br>Drop its link in CONFIG.paypal in the source.</div>`}
+    </div>
+    <div class="instr">Pay <b>$${p.price}</b> with PayPal, then continue below with your email so the course can be delivered.</div>`;
+  }else{
+    const isLTC=CO.tab==='ltc';
+    const coin=isLTC?'Litecoin (LTC)':'Solana (SOL)';
+    const addr=isLTC?CONFIG.ltc:CONFIG.sol;
+    body=`<div class="instr" style="margin-bottom:12px"><b>1.</b> Send exactly <b>$${p.price} worth of ${coin}</b> to the address below.<br><b>2.</b> Wait for network confirmation.<br><b>3.</b> Continue below with your email + transaction ID.</div>
+    <div class="addrbox"><span id="coAddr">${addr}</span><button class="cp" onclick="copyAddr('coAddr',this)">COPY ADDRESS</button></div>
+    <div class="qrph"><!-- QR CODE COMPONENT: render a ${coin} QR for the address above here -->QR code for ${coin} address<br><span style="font-size:11px">Plug a QR component in here when ready.</span></div>
+    <div class="note">Payments are confirmed before course access is sent. Never send from an exchange account that cannot provide a transaction ID.</div>`;
+  }
+  coBox.innerHTML=`
+    <div class="mhead"><h2>${p.name} — $${p.price}</h2><button class="x" onclick="coOverlay.classList.remove('open')">✕</button></div>
+    <div class="msub">One payment, lifetime access. Educational content only.</div>
+    <div class="ptabs">
+      <button class="ptab ${CO.tab==='pp'?'sel':''}" onclick="setTab('pp')">PayPal</button>
+      <button class="ptab ${CO.tab==='ltc'?'sel':''}" onclick="setTab('ltc')">Litecoin</button>
+      <button class="ptab ${CO.tab==='sol'?'sel':''}" onclick="setTab('sol')">Solana</button>
+    </div>
+    ${body}
+    <div class="mfoot">
+      <div class="addrbox"><input id="coEmail" placeholder="you@email.com — for course delivery" style="flex:1;background:none;border:none;outline:none;color:#fff;font-size:14px;font-family:inherit"></div>
+      <div class="addrbox"><input id="coTx" placeholder="Transaction ID / payment proof" style="flex:1;background:none;border:none;outline:none;color:#fff;font-size:14px;font-family:monospace"></div>
+      <button class="btn g big" onclick="confirmOrder()">Submit Payment Proof <span class="arw">→</span></button>
+      <div class="note">No proof, no course. Orders unlock only after the owner verifies payment.</div>
+    </div>`;
+}
+function deliveryHTML(planId,oid){
+  if(planId==='elite')
+    return `<div class="instr" style="border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.06)"><b style="color:#fbbf24">Your Live Desk access:</b><br>
+      Add me on Discord: <b style="font-size:16px">Kuro.Trades</b>
+      <button class="cp" style="margin-left:8px" onclick="navigator.clipboard.writeText('Kuro.Trades').then(()=>toast('Discord copied'))">COPY</button><br>
+      <span style="font-size:12.5px">Message me with your Order ID <b style="font-family:monospace">${oid}</b> and you'll be pulled into the live trading calls.</span></div>`;
+  return `<div class="instr"><b style="color:var(--grn2)">Your course video is unlocked below.</b> Keep your Order ID private.</div>
+    <div style="margin:14px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line2);background:#000">
+      <video controls controlsList="nodownload" style="width:100%;display:block;max-height:320px" src="course.mp4"></video>
+    </div>`;
+}
+async function confirmOrder(){
+  const email=(document.getElementById('coEmail').value||'').trim();
+  const txid=(document.getElementById('coTx').value||'').trim();
+  if(!email||!email.includes('@')){toast('Enter a valid email for delivery');return;}
+  if(!txid){toast('Paste your transaction ID as proof');return;}
+  const p=CO.plan;
+  let oid=null;
+  try{
+    const r=await fetch(BACKEND+'/api/orders/claim',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:p.id,email,txid})});
+    if(!r.ok)throw 0;
+    oid=(await r.json()).orderId;
+  }catch(e){toast('Could not reach the order server — is it running?');return;}
+  coBox.innerHTML=`
+    <div class="mhead"><h2>Proof Received</h2><button class="x" onclick="coOverlay.classList.remove('open')">✕</button></div>
+    <div class="msub">Plan: <b>${p.name} — $${p.price}</b> &nbsp;•&nbsp; Order ID: <b style="font-family:monospace">${oid}</b></div>
+    <div class="instr"><b>Under review.</b> The owner checks your payment proof.<br>
+    If it checks out, your course unlocks — come back and open <b>My Access</b> with your Order ID.<br>
+    No proof, no course. Nothing is unlocked until payment is verified.</div>
+    <div class="mfoot">
+      <button class="btn g big" onclick="openAccess('${oid}')">Check My Access <span class="arw">→</span></button>
+      <button class="btn o big" onclick="coOverlay.classList.remove('open')">Back to Site</button>
+    </div>`;
+}
+/* buyer: retrieve an approved order */
+function openAccess(prefill){
+  coBox.innerHTML=`
+    <div class="mhead"><h2>My Access</h2><button class="x" onclick="coOverlay.classList.remove('open')">✕</button></div>
+    <div class="msub">Enter your Order ID to unlock your course.</div>
+    <div class="mfoot">
+      <div class="addrbox"><input id="accId" placeholder="KURO-..." value="${prefill||''}" style="flex:1;background:none;border:none;outline:none;color:#fff;font-size:14px;font-family:monospace"></div>
+      <button class="btn g big" onclick="checkAccess()">Unlock <span class="arw">→</span></button>
+    </div>
+    <div id="accOut" style="margin-top:14px"></div>`;
+  coOverlay.classList.add('open');
+}
+async function checkAccess(){
+  const id=(document.getElementById('accId').value||'').trim();
+  const out=document.getElementById('accOut');
+  if(!id){toast('Enter your Order ID');return;}
+  out.innerHTML='<div class="note">Checking…</div>';
+  try{
+    const r=await fetch(BACKEND+'/api/orders/status?orderId='+encodeURIComponent(id));
+    if(r.status===404){out.innerHTML='<div class="instr">Order not found. Check the ID and try again.</div>';return;}
+    const j=await r.json();
+    if(j.status==='approved'){
+      const plan=CONFIG.plans.find(x=>x.id===j.plan);
+      out.innerHTML=`<div class="msub" style="margin-bottom:10px">Plan: <b>${plan?plan.name:j.plan}</b> — verified.</div>`+deliveryHTML(j.plan,id);
+    }
+    else if(j.status==='denied')out.innerHTML='<div class="instr" style="border-color:rgba(239,68,68,.4)">This order was declined — the payment proof did not check out. Contact support with your Order ID.</div>';
+    else out.innerHTML='<div class="instr"><b>Still under review.</b> The owner has not verified this payment yet. Check back soon.</div>';
+  }catch(e){out.innerHTML='<div class="instr">Could not reach the order server.</div>';}
+}
+/* owner: review proof */
+async function openOrders(){
+  const pin=window.SAVED_PIN||prompt('Owner PIN:'); if(!pin)return;
+  let j;
+  try{
+    const r=await fetch(BACKEND+'/api/owner/orders?pin='+encodeURIComponent(pin));
+    if(r.status===403){toast("ur not the owner");return;}
+    j=await r.json(); window.SAVED_PIN=pin;
+  }catch(e){toast('Could not reach the order server');return;}
+  coBox.innerHTML=`
+    <div class="mhead"><h2>Order Review</h2><button class="x" onclick="coOverlay.classList.remove('open')">✕</button></div>
+    <div class="msub">Verify the proof, then approve. Only approved orders unlock.</div>
+    ${j.pending.length?'<div class="kick" style="margin-top:12px">Waiting for you</div>'+j.pending.map(o=>
+      `<div class="prow" style="display:flex;gap:8px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:13px;flex-wrap:wrap">
+        <span><b>${o.plan.toUpperCase()}</b> • ${o.email}<br><small style="color:var(--mut);font-family:monospace">${o.orderId} • TX: ${o.txid}</small></span>
+        <span style="margin-left:auto;display:flex;gap:6px"><button class="cp" onclick="reviewOrder('${o.orderId}',true)">APPROVE</button><button class="cp" style="background:rgba(255,255,255,.1);color:#fff" onclick="reviewOrder('${o.orderId}',false)">DENY</button></span>
+      </div>`).join(''):'<div class="instr" style="margin-top:12px">Nothing waiting.</div>'}
+    ${j.history.length?'<div class="kick" style="margin-top:16px">History</div>'+j.history.map(o=>
+      `<div style="font-size:12.5px;color:var(--mut);padding:6px 0;border-top:1px solid var(--line)"><b style="color:#fff">${o.plan.toUpperCase()}</b> • ${o.email} • <span style="font-family:monospace">${o.orderId}</span> — ${o.status}</div>`).join(''):''}
+    <div class="mfoot"><button class="btn o big" onclick="coOverlay.classList.remove('open')">Close</button></div>`;
+  coOverlay.classList.add('open');
+}
+async function reviewOrder(orderId,approve){
+  try{
+    await fetch(BACKEND+'/api/owner/orders/review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin:window.SAVED_PIN,orderId,approve})});
+    toast(approve?'Approved — course unlocked':'Denied'); openOrders();
+  }catch(e){toast('Could not reach the order server');}
+}
+
+/* nav scroll state + mobile menu close */
+const nw=document.getElementById('navwrap');
+addEventListener('scroll',()=>nw.classList.toggle('scrolled',scrollY>24),{passive:true});
+document.querySelectorAll('#nlinks a').forEach(a=>a.onclick=()=>document.getElementById('nlinks').classList.remove('open'));
+
+/* scroll reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

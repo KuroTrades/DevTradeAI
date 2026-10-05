@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: kuro-courses
+    runtime: node
+    plan: free
+    buildCommand: npm install || true
+    startCommand: node server.js
+    envVars: []

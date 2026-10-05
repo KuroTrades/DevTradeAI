@@ -1,0 +1,12 @@
+{
+  "name": "kuro-courses",
+  "version": "1.0.0",
+  "description": "Kuro's Courses — trading education platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
