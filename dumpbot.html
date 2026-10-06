@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dump Bot AI</title>
+<style>
+/* ============ DUMP BOT AI · exodus shell (empty — build on top) ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b0e14; --s1:#161b22; --s2:#181a20;
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+  --ind:#6366f1; --ind2:#7c3aed; --cy:#22d3ee; --grn:#34d399;
+  --txt:#ffffff; --mut:#8b949e;
+  --r:14px;
+}
+body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(900px 420px at 12% -6%,rgba(99,102,241,.12),transparent 60%),
+             radial-gradient(800px 400px at 88% 4%,rgba(124,58,237,.1),transparent 60%)}
+header{position:sticky;top:0;z-index:30;background:rgba(11,14,20,.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line)}
+.hwrap{max-width:1440px;margin:0 auto;padding:13px 26px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:17px}
+.badge{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--ind),var(--ind2));
+  display:grid;place-items:center;box-shadow:0 6px 20px -4px rgba(99,102,241,.6),inset 0 1px 0 rgba(255,255,255,.3)}
+nav.links{display:flex;gap:2px;margin-left:24px}
+nav.links a{color:var(--mut);text-decoration:none;font-size:13.5px;font-weight:600;padding:9px 15px;border-radius:9px;transition:.18s}
+nav.links a:hover{color:#fff;background:rgba(255,255,255,.06)}
+/* mount points — future modules render here */
+.subs{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:50px 26px 0;text-align:center}
+.subs .kick{font-size:11px;font-weight:800;letter-spacing:3px;color:var(--cy);margin-bottom:12px}
+.subs h2{font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:-1.5px}
+.subs h2 span{background:linear-gradient(94deg,#a5b4fc,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subs p.ss{color:var(--mut);margin:12px auto 0;max-width:560px;font-size:15px}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px;text-align:left}
+.tier{background:linear-gradient(180deg,var(--s2),var(--s1));border:1px solid var(--line);border-radius:18px;
+  padding:32px 28px;position:relative;transition:transform .25s,box-shadow .25s,border-color .25s;overflow:hidden}
+.tier::after{content:'';position:absolute;inset:0;opacity:0;transition:.3s;pointer-events:none;
+  background:radial-gradient(340px 170px at 50% -30%,var(--glow,rgba(99,102,241,.2)),transparent 70%)}
+.tier:hover{transform:translateY(-7px);border-color:var(--edge,var(--ind));box-shadow:0 26px 60px -18px var(--edge,var(--ind))}
+.tier:hover::after{opacity:1}
+.tier h3{font-size:13px;font-weight:800;letter-spacing:2.5px;color:var(--mut);margin-bottom:4px}
+.tier .desc{font-size:14.5px;color:#d5dbe4;line-height:1.6;margin:12px 0 20px;min-height:70px}
+.tprice{font-size:42px;font-weight:900;letter-spacing:-1.5px}
+.tprice small{font-size:13px;color:var(--mut);font-weight:500}
+.tlist{list-style:none;margin:0 0 26px}
+.tlist li{font-size:13.5px;color:#c6cfdb;padding:8px 0 8px 28px;position:relative;border-bottom:1px solid rgba(255,255,255,.05)}
+.tlist li::before{content:'';position:absolute;left:2px;top:14px;width:13px;height:7px;
+  border-left:2.5px solid var(--grn);border-bottom:2.5px solid var(--grn);transform:rotate(-45deg) scale(.85)}
+.tbtn{width:100%;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;
+  transition:.2s;background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--line2)}
+.tbtn:hover{transform:translateY(-2px)}
+.tier a,.tier button,.tier h3,.tier .desc,.tier .tprice,.tlist{position:relative;z-index:1}
+.tier:hover h3{text-shadow:0 0 14px var(--edge)}
+.badge2{position:absolute;top:16px;right:16px;font-size:10px;font-weight:800;letter-spacing:1.5px;z-index:1;
+  padding:6px 13px;border-radius:20px;background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.4)}
+@media(max-width:900px){.tiers{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto}}
+.main{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:22px 26px 60px;
+  display:grid;grid-template-columns:1fr 320px;gap:18px}
+.col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.slot{background:linear-gradient(180deg,var(--s2),var(--s1));border:1px dashed rgba(255,255,255,.12);
+  border-radius:16px;min-height:220px;display:grid;place-items:center;color:var(--mut);
+  font-size:12px;letter-spacing:2px;position:relative;overflow:hidden}
+.slot::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(420px 160px at 50% -40%,rgba(99,102,241,.1),transparent 70%)}
+@media(max-width:1020px){.main{grid-template-columns:1fr}nav.links{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div class="brand"><span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>Dump Bot AI</div>
+    <nav class="links" id="nav"><!-- NAV MOUNT --></nav>
+  </div>
+</header>
+
+<section class="subs">
+  <div class="kick">SUBSCRIPTIONS</div>
+  <div class="tiers" id="tiers"></div>
+</section>
+
+<script>
+/* plans — edit copy/prices here */
+const PLANS=[
+  {n:'DUMPBOT BASIC',p:'5.99',d:'Hands-free launch. Dump Bot creates your memecoin and runs it autonomously — you watch it work.',
+   f:['Automated memecoin creation','Autonomous operation & uptime','Live holder analytics','Community-ready launch'],
+   edge:'#22d3ee',glow:'rgba(34,211,238,.22)',btn:'background:linear-gradient(135deg,#0e7490,#22d3ee);color:#03181c;border:none'},
+  {n:'DUMPBOT PLUS',p:'11.99',d:'Everything in Basic, plus a full command deck. Your coin, your rules — manage every detail live.',
+   f:['Everything in Basic','Full management dashboard','Liquidity & supply controls','Holder rewards & airdrops','Priority execution engine'],
+   edge:'#6366f1',glow:'rgba(99,102,241,.25)',btn:'background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none'},
+  {n:'DUMPBOT PREMIUM',p:'24.99',d:'The full operation. Creation, management and aggressive promotion — then a timed, maximized exit.',
+   f:['Everything in Plus','Built-in promotion engine','Influencer & raid coordination','Timed dump execution','Dedicated exit strategist'],
+   edge:'#fbbf24',glow:'rgba(251,191,36,.22)',btn:'background:linear-gradient(135deg,#b45309,#fbbf24);color:#1a1000;border:none',tag:'MOST PROFITABLE'},
+];
+const tw=document.getElementById('tiers');
+PLANS.forEach(pl=>{
+  const d=document.createElement('div');d.className='tier';
+  d.style.setProperty('--edge',pl.edge);d.style.setProperty('--glow',pl.glow);
+  d.innerHTML=`${pl.tag?`<span class="badge2">${pl.tag}</span>`:''}<h3>${pl.n}</h3>
+    <div class="tprice">$${pl.p}<small> /mo</small></div>
+    <p class="desc">${pl.d}</p>
+    <ul class="tlist">${pl.f.map(f=>`<li>${f}</li>`).join('')}</ul>
+    <button class="tbtn" style="${pl.btn}" onclick="pickPlan('${pl.n}')">Choose ${pl.n.split(' ')[1]}</button>`;
+  tw.appendChild(d);
+});
+function pickPlan(n){
+  document.querySelectorAll('.tier').forEach(t=>t.style.borderColor='');
+  event.target.closest('.tier').style.borderColor='#fff';
+  toast(n+' selected — checkout connects next');
+}
+function toast(m){let t=document.getElementById('dbToast');if(!t){t=document.createElement('div');t.id='dbToast';t.style.cssText='position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#1a2130;border:1px solid #6366f1;color:#fff;font-weight:700;font-size:14px;padding:13px 26px;border-radius:14px;z-index:99;transition:.3s';document.body.appendChild(t);}t.textContent=m;t.style.opacity=1;clearTimeout(t._h);t._h=setTimeout(()=>t.style.opacity=0,2400);}
+/* ============ mounts for future modules ============
+  renderNav()    -> #nav
+  renderMain()   -> #mount-main
+  renderLedger() -> #mount-ledger
+  renderSide()   -> #mount-side
+  Tell her what goes where and it gets built.
+====================================================== */
+</script>
+</body>
+</html>
