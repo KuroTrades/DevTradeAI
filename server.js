@@ -187,8 +187,8 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, { ok: true });
     }
 
-    // Static site (Kuro's Courses is the homepage)
-    let f = u.pathname === '/' ? '/kuro-courses.html' : u.pathname;
+    // Static site (DevTradeAI homepage)
+    let f = u.pathname === '/' ? '/devtrade.html' : u.pathname;
     const fp = path.join(__dirname, f);
     if (!fp.startsWith(__dirname) || !fs.existsSync(fp) || fs.statSync(fp).isDirectory())
       return json(res, 404, { error: 'not-found' });
