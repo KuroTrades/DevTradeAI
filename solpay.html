@@ -40,7 +40,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter','Segoe UI',system
 <body>
 <div class="box">
   <div class="logo"><span class="sbadge" style="background:#000;padding:0;overflow:hidden"><svg width="34" height="34" viewBox="0 0 34 34"><defs><linearGradient id="sg1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#00ffa3"/><stop offset="1" stop-color="#03e1ff"/></linearGradient><linearGradient id="sg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#24a4ff"/><stop offset="1" stop-color="#03e1ff"/></linearGradient><linearGradient id="sg3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9945ff"/><stop offset="1" stop-color="#14f195"/></linearGradient></defs><circle cx="17" cy="17" r="17" fill="#000"/><polygon points="11,9 23,9 21,12.5 9,12.5" fill="url(#sg1)"/><polygon points="9,15.2 21,15.2 23,18.7 11,18.7" fill="url(#sg2)"/><polygon points="11,21.4 23,21.4 21,24.9 9,24.9" fill="url(#sg3)"/></svg></span>Solana Pay</div>
-  <div class="sub">$50 · Scan with Phantom or pay in one tap</div>
+  <div class="sub">$49.99 · Scan with Phantom or pay in one tap</div>
   <div class="rate" id="rate">Fetching SOL price…</div>
   <div class="amt" id="amt"></div>
   <div class="qr"><img id="qr" alt="Scan to pay"></div>
@@ -54,7 +54,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter','Segoe UI',system
 <script>
 /* ================= CONFIG ================= */
 const SELLER='9XfTmTP6f5C91wzjYb4TonWShfJodyvCpu8JkJwTkvyC';
-const PLANS=[{n:'PAYMENT',usd:50}];
+const PLANS=[{n:'PAYMENT',usd:49.99}];
 let plan=PLANS[0], solPrice=null;
 
 function toast(m){alert(m);}
