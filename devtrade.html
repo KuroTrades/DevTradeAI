@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevTradeAI — Launch Your Own Coin in Minutes</title>
+<meta name="description" content="DevTradeAI: the AI memecoin launcher. Create, deploy and manage your own coin.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060409; --p1:#0c0716; --p2:#120b22; --p3:#1a1030;
+  --pur:#8b5cf6; --pur2:#a78bfa; --deep:#6d28d9;
+  --txt:#f5f2ff; --mut:#9a90b3; --dim:#5f5775;
+  --line:rgba(139,92,246,.14); --line2:rgba(139,92,246,.32);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(900px 460px at 50% -6%,rgba(109,40,217,.16),transparent 60%),
+             radial-gradient(700px 420px at 8% 30%,rgba(139,92,246,.06),transparent 60%),
+             radial-gradient(700px 500px at 92% 70%,rgba(139,92,246,.07),transparent 60%)}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(139,92,246,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.05) 1px,transparent 1px);
+  background-size:54px 54px;
+  mask-image:radial-gradient(ellipse 90% 55% at 50% 0%,#000 20%,transparent 75%)}
+::selection{background:rgba(139,92,246,.4)}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#2a2140;border-radius:8px}
+/* glow hover language */
+.glowable{transition:box-shadow .25s ease,border-color .25s ease,transform .25s ease,text-shadow .25s ease}
+/* nav */
+.navwrap{position:fixed;top:14px;left:0;right:0;z-index:60;display:flex;justify-content:center;padding:0 4vw}
+.nav{width:min(1160px,100%);display:flex;align-items:center;gap:4px;padding:11px 12px 11px 20px;
+  background:rgba(12,7,22,.72);backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:18px;transition:.3s}
+.navwrap.scrolled .nav{box-shadow:0 18px 50px -12px rgba(0,0,0,.8),0 0 30px -12px rgba(139,92,246,.35)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;color:#fff;text-decoration:none;margin-right:22px}
+.lmark{width:31px;height:31px;border-radius:10px;background:linear-gradient(135deg,#6d28d9,#a78bfa);
+  display:grid;place-items:center;box-shadow:0 4px 16px -2px rgba(139,92,246,.6),inset 0 1px 0 rgba(255,255,255,.3)}
+.logo:hover{text-shadow:0 0 16px rgba(167,139,250,.8)}
+.nlinks{display:flex;gap:2px}
+.nlinks a{color:var(--mut);text-decoration:none;font-size:13.5px;font-weight:500;padding:9px 15px;border-radius:9px}
+.nlinks a:hover{color:#fff;background:rgba(139,92,246,.1);box-shadow:0 0 18px -6px rgba(139,92,246,.6);text-shadow:0 0 12px rgba(167,139,250,.7)}
+.cta{margin-left:auto;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border:none;font-weight:700;
+  font-size:13.5px;padding:11px 22px;border-radius:11px;cursor:pointer;text-decoration:none;display:inline-flex;
+  align-items:center;gap:7px;white-space:nowrap;box-shadow:0 6px 22px -6px rgba(139,92,246,.6),inset 0 1px 0 rgba(255,255,255,.22)}
+.cta:hover{transform:translateY(-1px) scale(1.02);box-shadow:0 12px 34px -6px rgba(139,92,246,.8);filter:brightness(1.1)}
+.cta .arw{transition:.2s}.cta:hover .arw{transform:translateX(3px)}
+.burger{display:none;margin-left:auto;background:rgba(139,92,246,.08);border:1px solid var(--line);color:#fff;
+  font-size:17px;width:40px;height:40px;border-radius:11px;cursor:pointer}
+.burger:hover{box-shadow:0 0 16px rgba(139,92,246,.5)}
+/* hero */
+.hero{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:190px 4vw 70px;text-align:center}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;pointer-events:none;animation:drift 9s ease-in-out infinite}
+.orb.o1{width:420px;height:420px;left:-120px;top:120px;background:radial-gradient(circle,rgba(109,40,217,.5),transparent 70%)}
+.orb.o2{width:360px;height:360px;right:-100px;top:220px;background:radial-gradient(circle,rgba(139,92,246,.4),transparent 70%);animation-delay:-4s}
+@keyframes drift{50%{transform:translateY(-26px)}}
+.pill{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:2.5px;color:#d8ccff;
+  border:1px solid var(--line2);background:rgba(139,92,246,.07);border-radius:100px;padding:9px 20px;margin-bottom:28px}
+.pill:hover{box-shadow:0 0 26px -6px rgba(139,92,246,.7)}
+.pdot{width:7px;height:7px;border-radius:50%;background:var(--pur2);box-shadow:0 0 12px 2px rgba(139,92,246,.7);animation:pl 2s infinite}
+@keyframes pl{50%{opacity:.45}}
+.hero h1{font-size:clamp(44px,7vw,86px);font-weight:900;letter-spacing:-3px;line-height:1.03}
+.hero h1 .grad{background:linear-gradient(94deg,#c4b5fd,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mut);font-size:clamp(15px,2vw,18px);max-width:600px;margin:24px auto 0;line-height:1.65}
+.hbtns{display:flex;gap:12px;justify-content:center;margin-top:38px;flex-wrap:wrap}
+.btn{font-size:14.5px;font-weight:700;padding:15px 30px;border-radius:12px;cursor:pointer;text-decoration:none;
+  border:none;display:inline-flex;align-items:center;gap:9px;font-family:inherit}
+.btn .arw{transition:.2s}.btn:hover .arw{transform:translateX(4px)}
+.btn.p{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;
+  box-shadow:0 10px 32px -8px rgba(139,92,246,.6),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn.p:hover{transform:translateY(-2px) scale(1.015);box-shadow:0 18px 44px -8px rgba(139,92,246,.8);filter:brightness(1.12)}
+.btn.o{background:rgba(139,92,246,.05);color:#fff;border:1px solid var(--line2)}
+.btn.o:hover{transform:translateY(-2px);border-color:var(--pur);box-shadow:0 0 28px -8px rgba(139,92,246,.7)}
+.mini-stats{display:flex;gap:34px;justify-content:center;margin-top:60px;flex-wrap:wrap}
+.ms b{font-size:22px;display:block}.ms b i{font-style:normal;color:var(--pur2)}
+.ms span{color:var(--mut);font-size:11px;letter-spacing:2px;text-transform:uppercase}
+/* sections */
+section{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:100px 4vw 0}
+.sep{max-width:1160px;margin:90px auto 0;padding:0 4vw;position:relative;z-index:1}
+.sep div{height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.25),transparent)}
+.kick{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:2.5px;
+  color:var(--pur2);text-transform:uppercase;margin-bottom:14px}
+.kick::before{content:'';width:22px;height:1.5px;background:linear-gradient(90deg,var(--pur),transparent)}
+.kick:hover{text-shadow:0 0 14px rgba(167,139,250,.8)}
+h2.st{font-size:clamp(30px,4.2vw,46px);font-weight:800;letter-spacing:-1.8px;line-height:1.1;margin-bottom:12px}
+h2.st .grad{background:linear-gradient(94deg,#c4b5fd,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
+p.ss{color:var(--mut);font-size:16px;max-width:600px;line-height:1.65}
+/* features */
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
+.fcard{background:linear-gradient(180deg,rgba(26,16,48,.7),rgba(12,7,22,.9));border:1px solid var(--line);
+  border-radius:18px;padding:30px 26px;position:relative;overflow:hidden}
+.fcard::after{content:'';position:absolute;inset:0;opacity:0;transition:.3s;pointer-events:none;
+  background:radial-gradient(320px 160px at 50% -30%,rgba(139,92,246,.18),transparent 70%)}
+.fcard:hover{transform:translateY(-5px);border-color:var(--line2);box-shadow:0 0 34px -10px rgba(139,92,246,.55)}
+.fcard:hover::after{opacity:1}
+.fcard h3{font-size:16.5px;margin-bottom:9px}
+.fcard p{color:var(--mut);font-size:13.5px;line-height:1.65}
+.fico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;margin-bottom:18px;
+  background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);transition:.25s}
+.fcard:hover .fico{transform:translateY(-3px);box-shadow:0 0 20px -4px rgba(139,92,246,.7)}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px;counter-reset:st}
+.step{background:linear-gradient(180deg,rgba(26,16,48,.55),rgba(12,7,22,.9));border:1px solid var(--line);
+  border-radius:18px;padding:32px 28px;position:relative;overflow:hidden}
+.step:hover{transform:translateY(-5px);border-color:var(--line2);box-shadow:0 0 34px -10px rgba(139,92,246,.55)}
+.step .n{font-size:13px;font-weight:800;letter-spacing:2px;color:var(--pur2);margin-bottom:14px}
+.step h3{font-size:17px;margin-bottom:9px}
+.step p{color:var(--mut);font-size:13.5px;line-height:1.65}
+/* pricing */
+.pwrap{max-width:520px;margin:44px auto 0;background:linear-gradient(180deg,rgba(30,18,58,.85),rgba(12,7,22,.95));
+  border:1px solid rgba(139,92,246,.4);border-radius:24px;padding:42px 38px;text-align:center;position:relative;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(139,92,246,.2),0 40px 90px -30px rgba(139,92,246,.45)}
+.pwrap::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(400px 180px at 50% -40%,rgba(139,92,246,.22),transparent 70%)}
+.pwrap:hover{box-shadow:0 0 0 1px rgba(139,92,246,.35),0 40px 100px -25px rgba(139,92,246,.6)}
+.pname{font-size:12px;font-weight:800;letter-spacing:3px;color:var(--pur2);margin-bottom:10px}
+.pval{font-size:56px;font-weight:900;letter-spacing:-2px}
+.pval small{font-size:14px;color:var(--mut);font-weight:500}
+.plist{list-style:none;margin:26px 0 30px;text-align:left}
+.plist li{color:#d5cdea;font-size:14px;padding:9px 0 9px 30px;position:relative;border-bottom:1px solid rgba(139,92,246,.1)}
+.plist li::before{content:'';position:absolute;left:2px;top:15px;width:14px;height:8px;
+  border-left:2.5px solid var(--pur2);border-bottom:2.5px solid var(--pur2);transform:rotate(-45deg) scale(.85)}
+/* faq */
+.faq{margin-top:36px;display:flex;flex-direction:column;gap:10px;max-width:820px}
+.qa{background:rgba(14,9,26,.75);border:1px solid var(--line);border-radius:15px;overflow:hidden;transition:.2s}
+.qa.open{border-color:rgba(139,92,246,.45);box-shadow:0 0 26px -10px rgba(139,92,246,.5)}
+.qa:hover:not(.open){border-color:var(--line2);box-shadow:0 0 20px -10px rgba(139,92,246,.4)}
+.qa button{width:100%;background:none;border:none;color:#fff;font-size:14.5px;font-weight:600;text-align:left;
+  padding:19px 22px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;font-family:inherit}
+.qplus{color:var(--pur2);font-size:19px;flex:0 0 auto;transition:transform .28s;line-height:1}
+.qa.open .qplus{transform:rotate(45deg);text-shadow:0 0 12px rgba(167,139,250,.9)}
+.qa .a{max-height:0;overflow:hidden;transition:max-height .32s;color:var(--mut);font-size:13.5px;line-height:1.7}
+.qa .a div{padding:0 22px 20px}
+/* final cta */
+.final{max-width:1160px;margin:110px auto 0;padding:0 4vw;position:relative;z-index:1}
+.final-in{text-align:center;border:1px solid var(--line2);border-radius:28px;padding:80px 30px;position:relative;overflow:hidden;
+  background:radial-gradient(600px 260px at 50% 0%,rgba(109,40,217,.25),transparent 70%),linear-gradient(180deg,rgba(24,14,46,.9),rgba(8,5,14,.95))}
+.final-in:hover{box-shadow:0 0 60px -18px rgba(139,92,246,.55)}
+.final-in h2{font-size:clamp(30px,4.5vw,52px);font-weight:900;letter-spacing:-2px}
+.final-in h2 span{background:linear-gradient(94deg,#c4b5fd,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.final-in p{color:var(--mut);margin:16px 0 32px}
+/* footer */
+footer{position:relative;z-index:1;border-top:1px solid var(--line);margin-top:110px;background:rgba(4,2,8,.7)}
+.fin{max-width:1160px;margin:0 auto;padding:60px 4vw 30px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:36px}
+.fin p{color:var(--mut);font-size:13px;line-height:1.7;margin-top:14px;max-width:300px}
+.fin h5{font-size:11px;letter-spacing:2px;color:var(--dim);margin-bottom:16px;font-weight:700}
+.fin a{display:block;color:var(--mut);text-decoration:none;font-size:13.5px;padding:5px 0;transition:.18s}
+.fin a:hover{color:#fff;text-shadow:0 0 12px rgba(167,139,250,.8);transform:translateX(2px)}
+.copy{text-align:center;color:var(--dim);font-size:12.5px;padding:22px;border-top:1px solid var(--line)}
+/* toast + reveal */
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);z-index:200;opacity:0;
+  background:#160f2b;border:1px solid var(--pur);color:#fff;font-weight:600;font-size:13.5px;padding:13px 26px;
+  border-radius:14px;transition:.3s;box-shadow:0 20px 40px rgba(0,0,0,.6)}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.3,1)}
+.rv.vis{opacity:1;transform:none}
+@media(max-width:960px){.fgrid,.steps{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}}
+@media(max-width:680px){.nlinks{display:none;position:absolute;top:calc(100% + 8px);left:4vw;right:4vw;flex-direction:column;
+  background:rgba(10,6,20,.97);border:1px solid var(--line2);border-radius:16px;padding:10px}
+  .nlinks.open{display:flex}.burger{display:block}.nav .cta{display:none}.fin{grid-template-columns:1fr 1fr}
+  .hbtns a{width:100%;justify-content:center}.hbtns{flex-direction:column}.hero{padding-top:150px}}
+</style>
+</head>
+<body>
+<div class="bg-fx"></div><div class="bg-grid"></div>
+
+<div class="navwrap" id="navwrap">
+  <div class="nav">
+    <a class="logo glowable" href="#top"><span class="lmark"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span>DevTradeAI</a>
+    <div class="nlinks" id="nlinks">
+      <a href="#top">Home</a><a href="#features">Features</a><a href="#how">How It Works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
+    </div>
+    <a class="cta" href="#pricing">Get Access <span class="arw">→</span></a>
+    <button class="burger" onclick="document.getElementById('nlinks').classList.toggle('open')">☰</button>
+  </div>
+</div>
+
+<header class="hero" id="top">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="pill glowable"><span class="pdot"></span>AI COIN LAUNCHER</div>
+  <h1>Dev Your Own Coin.<br><span class="grad">AI Handles the Rest.</span></h1>
+  <p>DevTradeAI creates, deploys and manages your memecoin for you — token, liquidity and launch, done in minutes.</p>
+  <div class="hbtns">
+    <a class="btn p" href="#pricing">Launch Your Coin <span class="arw">→</span></a>
+    <a class="btn o" href="#how">See How It Works <span class="arw">→</span></a>
+  </div>
+  <div class="mini-stats">
+    <div class="ms"><b><i>●</i> Minutes</b><span>From idea to live coin</span></div>
+    <div class="ms"><b>No code</b><span>AI builds everything</span></div>
+    <div class="ms"><b>$50</b><span>One-time access</span></div>
+  </div>
+</header>
+
+<section id="features">
+  <div class="kick rv">Features</div>
+  <h2 class="st rv">Everything You Need<br>to <span class="grad">Launch Your Coin</span></h2>
+  <p class="ss rv">Professional-grade dev tooling, wrapped in an interface anyone can use.</p>
+  <div class="fgrid">
+    <div class="fcard rv"><div class="fico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg></div><h3>One-Click Token Deploy</h3><p>Name it, set supply, pick taxes — your token goes live on Solana in minutes.</p></div>
+    <div class="fcard rv"><div class="fico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg></div><h3>Liquidity Automation</h3><p>Pools created, liquidity seeded and locked options handled for you automatically.</p></div>
+    <div class="fcard rv"><div class="fico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><h3>Live Coin Dashboard</h3><p>Holders, volume and price tracking on your coin from the second it launches.</p></div>
+    <div class="fcard rv"><div class="fico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><h3>Supply Management</h3><p>Mint, burn, airdrop and vesting controls — manage your tokenomics live.</p></div>
+    <div class="fcard rv"><div class="fico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg></div><h3>Launch Playbooks</h3><p>Proven fair-launch and stealth-launch strategies built into the flow.</p></div>
+    <div class="fcard rv"><div class="fico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 8-3 8h18s-3-1-3-8M10 21a2 2 0 004 0"/></svg></div><h3>Sniper Protection</h3><p>Anti-bot launch settings that keep the playing field fair for real buyers.</p></div>
+  </div>
+</section>
+
+<div class="sep"><div></div></div>
+
+<section id="how">
+  <div class="kick rv">Process</div>
+  <h2 class="st rv">Live Coin in <span class="grad">Three Steps</span></h2>
+  <p class="ss rv">From idea to tradable token in minutes.</p>
+  <div class="steps">
+    <div class="step rv"><div class="n">01</div><h3>Design Your Coin</h3><p>Name, symbol, supply and taxes — three fields and your token spec is ready.</p></div>
+    <div class="step rv"><div class="n">02</div><h3>Deploy</h3><p>One click mints the token, creates the pool and seeds liquidity on Solana.</p></div>
+    <div class="step rv"><div class="n">03</div><h3>Manage &amp; Grow</h3><p>Track holders, run airdrops and steer your coin from the live dashboard.</p></div>
+  </div>
+</section>
+
+<div class="sep"><div></div></div>
+
+<section id="pricing">
+  <div class="kick rv">Pricing</div>
+  <h2 class="st rv">One Price. <span class="grad">Full Power.</span></h2>
+  <p class="ss rv">Every dev tool, every launch feature, forever. Paid in seconds with Solana.</p>
+  <div class="pwrap rv">
+    <div class="pname">FULL ACCESS</div>
+    <div class="pval">$50<small> one-time</small></div>
+    <ul class="plist">
+      <li>One-click token deployer</li>
+      <li>Liquidity automation suite</li>
+      <li>Live coin dashboard</li>
+      <li>Supply management controls</li>
+      <li>Lifetime updates included</li>
+    </ul>
+    <a class="btn p" style="width:100%;justify-content:center" href="solpay.html">Pay $50 with Solana <span class="arw">→</span></a>
+    <p style="font-size:12px;color:var(--mut);margin-top:14px">Opens the Phantom pay button — QR or one-tap.</p>
+  </div>
+</section>
+
+<div class="sep"><div></div></div>
+
+<section id="faq">
+  <div class="kick rv">FAQ</div>
+  <h2 class="st rv">Questions, <span class="grad">Answered</span></h2>
+  <div class="faq" id="faqBox"></div>
+</section>
+
+<div class="final rv">
+  <div class="final-in glowable">
+    <h2>Stop Watching Coins.<br><span>Launch Your Own.</span></h2>
+    <p>One payment. Your token live in minutes. Your rules.</p>
+    <a class="btn p" href="#pricing">Get DevTradeAI — $50 <span class="arw">→</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="fin">
+    <div>
+      <a class="logo" href="#top"><span class="lmark"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span>DevTradeAI</a>
+      <p>AI memecoin launcher. Your token, your liquidity, your rules — live in minutes.</p>
+    </div>
+    <div><h5>NAVIGATE</h5><a href="#top">Home</a><a href="#features">Features</a><a href="#how">How It Works</a><a href="#faq">FAQ</a></div>
+    <div><h5>PRODUCT</h5><a href="#pricing">Pricing</a><a href="solpay.html">Solana Pay</a><a href="#how">Onboarding</a></div>
+    <div><h5>LEGAL</h5><a href="#faq">Terms</a><a href="#faq">Privacy</a><a href="#faq">Risk Notice</a></div>
+  </div>
+  <div class="copy">© 2026 DevTradeAI. Trading involves risk. Educational software — not financial advice.</div>
+</footer>
+<div id="toast"></div>
+
+<script>
+const FAQS=[
+  ['What is DevTradeAI?','A memecoin dev platform — design your token, deploy it to Solana and manage everything from one dashboard. No coding needed.'],
+  ['How do I pay?','With Solana through Phantom — scan the QR or one-tap pay. $50, one time, no subscription.'],
+  ['Do I need coding experience?','No. The launcher handles the token contract, pool and liquidity for you.'],
+  ['Which chain does it deploy to?','Solana — fast, cheap, and where memecoins live.'],
+  ['What happens after I pay?','You receive onboarding access immediately after your payment is confirmed.'],
+  ['Can I get a refund?','Digital access products are final once delivered. If your payment never confirms, you are never charged.'],
+];
+const fq=document.getElementById('faqBox');
+FAQS.forEach(([q,a])=>{
+  const d=document.createElement('div');d.className='qa rv';
+  d.innerHTML=`<button>${q}<span class="qplus">+</span></button><div class="a"><div>${a}</div></div>`;
+  d.querySelector('button').onclick=()=>{
+    const o=d.classList.contains('open');
+    document.querySelectorAll('.qa').forEach(x=>{x.classList.remove('open');x.querySelector('.a').style.maxHeight=null;});
+    if(!o){d.classList.add('open');const a2=d.querySelector('.a');a2.style.maxHeight=a2.scrollHeight+'px';}
+  };
+  fq.appendChild(d);
+});
+const nw=document.getElementById('navwrap');
+addEventListener('scroll',()=>nw.classList.toggle('scrolled',scrollY>24),{passive:true});
+document.querySelectorAll('#nlinks a').forEach(a=>a.onclick=()=>document.getElementById('nlinks').classList.remove('open'));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solana Pay — Kuro</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#05070b;--p1:#0a0f16;--p2:#0e141d;--grn:#14f195;--pur:#9945ff;--txt:#f4f6fa;--mut:#8e9aac;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14)}
+body{background:var(--bg);color:var(--txt);font-family:'Inter','Segoe UI',system-ui,sans-serif;min-height:100vh;
+  display:grid;place-items:center;padding:24px;
+  background-image:radial-gradient(800px 400px at 50% -10%,rgba(153,69,255,.12),transparent),radial-gradient(700px 400px at 50% 110%,rgba(20,241,149,.07),transparent)}
+.box{width:min(430px,100%);background:linear-gradient(180deg,var(--p2),var(--p1));border:1px solid var(--line2);
+  border-radius:24px;padding:34px 30px;text-align:center;box-shadow:0 40px 90px -30px rgba(0,0,0,.9)}
+.logo{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:900;font-size:19px;margin-bottom:6px}
+.sbadge{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--grn),var(--pur));
+  display:grid;place-items:center;box-shadow:0 6px 20px -4px rgba(20,241,149,.5)}
+.sub{color:var(--mut);font-size:13px;margin-bottom:22px}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px}
+.plan{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--mut);border-radius:12px;
+  padding:13px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s;font-family:inherit}
+.plan small{display:block;font-weight:500;font-size:11px;margin-top:2px}
+.plan.sel{color:#fff;border-color:var(--grn);background:rgba(20,241,149,.08);box-shadow:0 0 22px -6px rgba(20,241,149,.5)}
+.rate{font-size:12px;color:var(--mut);margin-bottom:16px}
+.rate b{color:var(--grn)}
+.qr{background:#fff;border-radius:16px;padding:14px;display:inline-block;margin:4px 0 16px;box-shadow:0 0 40px -8px rgba(20,241,149,.35)}
+.qr img{width:210px;height:210px;display:block}
+.amt{font-size:15px;margin-bottom:4px}.amt b{font-size:24px}
+.addr{font-family:monospace;font-size:11px;color:var(--mut);word-break:break-all;margin:10px 0 18px;line-height:1.6}
+.btn{display:block;width:100%;border:none;border-radius:13px;padding:15px;font-size:15px;font-weight:800;cursor:pointer;
+  transition:.2s;text-decoration:none;margin-bottom:10px;font-family:inherit}
+.btn.ph{background:linear-gradient(135deg,#14f195,#00c2a8);color:#03130a}
+.btn.ph:hover{transform:translateY(-2px);box-shadow:0 14px 34px -8px rgba(20,241,149,.6)}
+.btn.gh{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--line2)}
+.btn.gh:hover{border-color:var(--grn)}
+.note{font-size:11.5px;color:var(--mut);margin-top:6px;line-height:1.6}
+.err{color:#f87171;font-size:13px;margin:10px 0}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo"><span class="sbadge" style="background:#000;padding:0;overflow:hidden"><svg width="34" height="34" viewBox="0 0 34 34"><defs><linearGradient id="sg1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#00ffa3"/><stop offset="1" stop-color="#03e1ff"/></linearGradient><linearGradient id="sg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#24a4ff"/><stop offset="1" stop-color="#03e1ff"/></linearGradient><linearGradient id="sg3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9945ff"/><stop offset="1" stop-color="#14f195"/></linearGradient></defs><circle cx="17" cy="17" r="17" fill="#000"/><polygon points="11,9 23,9 21,12.5 9,12.5" fill="url(#sg1)"/><polygon points="9,15.2 21,15.2 23,18.7 11,18.7" fill="url(#sg2)"/><polygon points="11,21.4 23,21.4 21,24.9 9,24.9" fill="url(#sg3)"/></svg></span>Solana Pay</div>
+  <div class="sub">$50 · Scan with Phantom or pay in one tap</div>
+  <div class="rate" id="rate">Fetching SOL price…</div>
+  <div class="amt" id="amt"></div>
+  <div class="qr"><img id="qr" alt="Scan to pay"></div>
+  <div class="addr" id="addr"></div>
+  <a class="btn ph" id="payBtn" href="#">Open in Phantom</a>
+  <button class="btn gh" onclick="navigator.clipboard.writeText(document.getElementById('payBtn').href).then(()=>toast('Payment link copied'))">Copy Payment Link</button>
+  <div class="note" id="note"></div>
+  <div class="err" id="err"></div>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+const SELLER='9XfTmTP6f5C91wzjYb4TonWShfJodyvCpu8JkJwTkvyC';
+const PLANS=[{n:'PAYMENT',usd:50}];
+let plan=PLANS[0], solPrice=null;
+
+function toast(m){alert(m);}
+async function solRate(){
+  try{
+    const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
+    const j=await r.json(); solPrice=j.solana.usd;
+  }catch(e){ solPrice=null; }
+  render();
+}
+function render(){
+  if(!solPrice){
+    document.getElementById('err').textContent='Live price unavailable — check connection and refresh.';
+    document.getElementById('rate').textContent='';return;
+  }
+  const sol=(plan.usd/solPrice);
+  const url=`solana:${SELLER}?amount=${sol.toFixed(6)}&label=${encodeURIComponent("Kuro's Courses "+plan.n)}&message=${encodeURIComponent('Order '+plan.n+' $'+plan.usd)}`;
+  document.getElementById('rate').innerHTML=`1 SOL = <b>$${solPrice}</b>`;
+  document.getElementById('amt').innerHTML=`<b>${sol.toFixed(4)} SOL</b> <span style="color:var(--mut)">($${plan.usd})</span>`;
+  document.getElementById('qr').src='https://api.qrserver.com/v1/create-qr-code/?size=210x210&data='+encodeURIComponent(url);
+  document.getElementById('addr').textContent=SELLER;
+  document.getElementById('payBtn').href=url;
+  document.getElementById('note').textContent='On mobile this opens Phantom directly. On desktop, scan the code with your Phantom app.';
+  document.getElementById('err').textContent='';
+}
+solRate();
+</script>
+</body>
+</html>
